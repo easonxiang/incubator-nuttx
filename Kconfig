@@ -2053,7 +2053,7 @@ source "openamp/Kconfig"
 endmenu
 
 menu "Application Configuration"
-source "$APPSBINDIR/Kconfig"
+source "$APPSDIR/Kconfig"
 endmenu
 
 # Support optionally including external code

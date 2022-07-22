@@ -145,9 +145,7 @@ include(nuttx_parse_function_args)
 
 # Add apps/ to the build (if present)
 
-if (NOT EXISTS ${NUTTX_APPS_BINDIR}/Kconfig)
-  add_subdirectory(${NUTTX_APPS_DIR} preapps)
-endif()
+add_subdirectory(${NUTTX_APPS_DIR} preapps)
 
 # Unsupport custom board/chips yet, workaround
 
@@ -171,51 +169,12 @@ if (NOT EXISTS ${CMAKE_BINARY_DIR}/apps/platform/board/Kconfig)
   file(TOUCH ${CMAKE_BINARY_DIR}/apps/platform/board/Kconfig)
 endif()
 
-# Copy board defconfig into main directory and expand
-# TODO: do also for changes in board/config (by comparing stored defconfig
-# to specified one)
-
-if (NOT EXISTS ${CMAKE_BINARY_DIR}/.config OR
-    NOT "${NUTTX_DEFCONFIG}" STREQUAL "${NUTTX_DEFCONFIG_SAVED}")
-
-  message(STATUS "Initializing NuttX")
-  configure_file(${NUTTX_DEFCONFIG} defconfig COPYONLY)
-  configure_file(${NUTTX_DEFCONFIG} .config.compressed COPYONLY)
-
-  set(ENV{KCONFIG_CONFIG} ${CMAKE_BINARY_DIR}/.config.compressed)
-
-  # Do olddefconfig step to expand the abbreviated defconfig into normal config
-  execute_process(
-    COMMAND kconfig-conf --olddefconfig Kconfig
-    OUTPUT_VARIABLE KCONFIG_OUTPUT
-    RESULT_VARIABLE KCONFIG_STATUS
-    WORKING_DIRECTORY ${NUTTX_DIR}
-  )
-
-  file(RENAME ${CMAKE_BINARY_DIR}/.config.compressed ${CMAKE_BINARY_DIR}/.config)
-  set(ENV{KCONFIG_CONFIG} ${CMAKE_BINARY_DIR}/.config)
-
-  # store original expanded .config
-  configure_file(${CMAKE_BINARY_DIR}/.config ${CMAKE_BINARY_DIR}/.config.orig COPYONLY)
-
-  if (KCONFIG_STATUS AND NOT KCONFIG_STATUS EQUAL 0)
-    message(FATAL_ERROR "Failed to initialize Kconfig configuration: ${KCONFIG_OUTPUT}")
-  endif()
-
-  set(NUTTX_DEFCONFIG_SAVED ${NUTTX_DEFCONFIG} CACHE INTERNAL "Saved defconfig path" FORCE)
-
-  # Print configuration choices
-
-  message(STATUS "  Board:  ${NUTTX_BOARD}")
-  message(STATUS "  Config: ${NUTTX_CONFIG}")
-  message(STATUS "  Appdir: ${NUTTX_APPS_DIR}")
-endif()
-
 # Include .cmake files #######################################################
 
 # this exposes all Kconfig vars to CMake
 
-include(kconfig)
+include(python)
+include(kconfig_lib)
 
 include(custom_commands)
 include(nuttx_add_library)
@@ -224,7 +183,6 @@ include(nuttx_add_romfs)
 include(nuttx_add_symtab)
 include(nuttx_add_module)
 include(nuttx_generate_outputs)
-include(menuconfig)
 
 include(ExternalProject)
 include(FetchContent)
