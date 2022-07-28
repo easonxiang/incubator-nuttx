@@ -39,6 +39,7 @@
 struct errno_strmap_s
 {
   uint8_t   errnum;
+  uint8_t   reserved[3];
   FAR char *str;
 };
 
