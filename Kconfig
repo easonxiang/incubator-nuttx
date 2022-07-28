@@ -9,6 +9,14 @@ config APPSDIR
 	string
 	option env="APPSDIR"
 
+config APPSBINDIR
+	string
+	option env="APPSBINDIR"
+
+config BINDIR
+	string
+	option env="BINDIR"
+
 menu "License Setup"
 config ALLOW_BSD_COMPONENTS
 	bool "Use components that have BSD licenses"
@@ -2045,7 +2053,7 @@ source "openamp/Kconfig"
 endmenu
 
 menu "Application Configuration"
-source "$APPSDIR/Kconfig"
+source "$APPSBINDIR/Kconfig"
 endmenu
 
 # Support optionally including external code

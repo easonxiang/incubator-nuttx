@@ -563,30 +563,30 @@ pass2dep: context tools\mkdeps$(HOSTEXEEXT)
 config:
 	$(Q) $(MAKE) clean_context
 	$(Q) $(MAKE) apps_preconfig
-	$(Q) set APPSDIR=$(patsubst "%",%,${CONFIG_APPS_DIR})& set EXTERNALDIR=$(EXTERNALDIR)& kconfig-conf Kconfig
+	$(Q) set APPSDIR=$(patsubst "%",%,${CONFIG_APPS_DIR})& set APPSBINDIR=$(patsubst "%",%,${CONFIG_APPS_DIR})& set BINDIR=$(patsubst "%",%,${TOPDIR})& set EXTERNALDIR=$(EXTERNALDIR)& kconfig-conf Kconfig
 
 oldconfig:
 	$(Q) $(MAKE) clean_context
 	$(Q) $(MAKE) apps_preconfig
-	$(Q) set APPSDIR=$(patsubst "%",%,${CONFIG_APPS_DIR})& set EXTERNALDIR=$(EXTERNALDIR)& kconfig-conf --oldconfig Kconfig
+	$(Q) set APPSDIR=$(patsubst "%",%,${CONFIG_APPS_DIR})& set APPSBINDIR=$(patsubst "%",%,${CONFIG_APPS_DIR})& set BINDIR=$(patsubst "%",%,${TOPDIR})& set EXTERNALDIR=$(EXTERNALDIR)& kconfig-conf --oldconfig Kconfig
 
 olddefconfig:
 	$(Q) $(MAKE) clean_context
 	$(Q) $(MAKE) apps_preconfig
-	$(Q) set APPSDIR=$(patsubst "%",%,${CONFIG_APPS_DIR})& set EXTERNALDIR=$(EXTERNALDIR)& kconfig-conf --olddefconfig Kconfig
+	$(Q) set APPSDIR=$(patsubst "%",%,${CONFIG_APPS_DIR})& set APPSBINDIR=$(patsubst "%",%,${CONFIG_APPS_DIR})& set BINDIR=$(patsubst "%",%,${TOPDIR})& set EXTERNALDIR=$(EXTERNALDIR)& kconfig-conf --olddefconfig Kconfig
 
 menuconfig:
 	$(Q) $(MAKE) clean_context
 	$(Q) $(MAKE) apps_preconfig
-	$(Q) set APPSDIR=$(patsubst "%",%,${CONFIG_APPS_DIR})& set EXTERNALDIR=$(EXTERNALDIR)& kconfig-mconf Kconfig
+	$(Q) set APPSDIR=$(patsubst "%",%,${CONFIG_APPS_DIR})& set APPSBINDIR=$(patsubst "%",%,${CONFIG_APPS_DIR})& set BINDIR=$(patsubst "%",%,${TOPDIR})& set EXTERNALDIR=$(EXTERNALDIR)& kconfig-mconf Kconfig
 
 nconfig:
 	$(Q) $(MAKE) clean_context
 	$(Q) $(MAKE) apps_preconfig
-	$(Q) set APPSDIR=$(patsubst "%",%,${CONFIG_APPS_DIR})& set EXTERNALDIR=$(EXTERNALDIR)& kconfig-nconf Kconfig
+	$(Q) set APPSDIR=$(patsubst "%",%,${CONFIG_APPS_DIR})& set APPSBINDIR=$(patsubst "%",%,${CONFIG_APPS_DIR})& set BINDIR=$(patsubst "%",%,${TOPDIR})& set EXTERNALDIR=$(EXTERNALDIR)& kconfig-nconf Kconfig
 
 savedefconfig: apps_preconfig
-	$(Q) set APPSDIR=$(patsubst "%",%,${CONFIG_APPS_DIR})& set EXTERNALDIR=$(EXTERNALDIR)& kconfig-conf --savedefconfig defconfig.tmp Kconfig
+	$(Q) set APPSDIR=$(patsubst "%",%,${CONFIG_APPS_DIR})& set APPSBINDIR=$(patsubst "%",%,${CONFIG_APPS_DIR})& set BINDIR=$(patsubst "%",%,${TOPDIR})& set EXTERNALDIR=$(EXTERNALDIR)& kconfig-conf --savedefconfig defconfig.tmp Kconfig
 	$(Q) kconfig-tweak --file defconfig.tmp -u CONFIG_APPS_DIR
 	$(Q) grep "CONFIG_ARCH=" .config >> defconfig.tmp
 	-$(Q) grep "^CONFIG_ARCH_CHIP_" .config >> defconfig.tmp

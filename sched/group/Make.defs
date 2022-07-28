@@ -23,14 +23,13 @@ CSRCS += group_setupstreams.c group_setupidlefiles.c group_setuptaskfiles.c
 CSRCS += group_foreachchild.c group_killchildren.c group_signal.c
 
 ifeq ($(CONFIG_SCHED_HAVE_PARENT),y)
-CSRCS += task_reparent.c
-ifeq ($(CONFIG_SCHED_CHILD_STATUS),y)
-CSRCS += group_childstatus.c
-endif
+  ifeq ($(CONFIG_SCHED_CHILD_STATUS),y)
+    CSRCS += group_childstatus.c
+  endif
 else
-ifeq ($(CONFIG_SCHED_WAITPID),y)
-CSRCS += group_waiter.c
-endif
+  ifeq ($(CONFIG_SCHED_WAITPID),y)
+    CSRCS += group_waiter.c
+  endif
 endif
 
 ifeq ($(CONFIG_SCHED_USER_IDENTITY),y)
