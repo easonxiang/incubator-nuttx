@@ -41,6 +41,7 @@ struct partition_state_s
   FAR struct inode *blk;
   blkcnt_t nblocks;
   blksize_t blocksize;
+  uint8_t reserved[2];
   size_t erasesize;
 };
 
