@@ -98,6 +98,7 @@ struct tasklist_s
 {
   DSEG volatile dq_queue_t *list; /* Pointer to the task list */
   uint8_t attr;                   /* List attribute flags */
+  uint8_t reserved[3];
 };
 
 /****************************************************************************

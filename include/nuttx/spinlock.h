@@ -35,6 +35,7 @@
 #ifndef CONFIG_SPINLOCK
 typedef struct
 {
+    int unused;
 } spinlock_t;
 #else
 

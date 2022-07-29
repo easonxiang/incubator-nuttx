@@ -733,6 +733,7 @@
 
 #else
 
+#  define IPTR
 #  undef  CONFIG_CPP_HAVE_VARARGS
 #  undef  CONFIG_CPP_HAVE_WARNING
 #  undef  CONFIG_HAVE_FUNCTIONNAME

@@ -272,6 +272,7 @@ struct net_driver_s
 
     struct netdev_varaddr_s radio;
 #endif
+    int unused;
   } d_mac;
 
   /* Network identity */

@@ -393,6 +393,7 @@ struct inode
 #endif
   FAR void         *i_private;  /* Per inode driver private data */
   char              i_name[1];  /* Name of inode (variable) */
+  uint8_t           reserved[3];
 };
 
 #define FSNODE_SIZE(n) (sizeof(struct inode) + (n))
@@ -421,6 +422,7 @@ struct filelist
 {
   sem_t             fl_sem;     /* Manage access to the file list */
   uint8_t           fl_rows;    /* The number of rows of fl_files array */
+  uint8_t           reserved[3];
   FAR struct file **fl_files;   /* The pointer of two layer file descriptors array */
 };
 

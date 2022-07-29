@@ -106,6 +106,7 @@ struct inode_search_s
   FAR const char *relpath;   /* Relative path into the mountpoint */
   FAR char *buffer;          /* Path expansion buffer */
   bool nofollow;             /* true: Don't follow terminal soft link */
+  char reserved[3];
 };
 
 /* Callback used by foreach_inode to traverse all inodes in the pseudo-

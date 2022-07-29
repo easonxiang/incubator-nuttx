@@ -103,6 +103,7 @@ struct sem_s
   /* If priority inheritance is enabled, then we have to keep track of which
    * tasks hold references to the semaphore.
    */
+  uint8_t reserved[2];
 
 #ifdef CONFIG_PRIORITY_INHERITANCE
   uint8_t flags;                 /* See PRIOINHERIT_FLAGS_* definitions */
