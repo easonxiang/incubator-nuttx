@@ -32,17 +32,12 @@ add_custom_command(
 add_custom_command(
   OUTPUT
     ${CMAKE_BINARY_DIR}/include/nuttx/config.h
-    ${CMAKE_BINARY_DIR}/include/nuttx/version.h
   COMMAND
     ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/include/nuttx
   COMMAND
-    ${CMAKE_BINARY_DIR}/bin/mkconfig ${CMAKE_BINARY_DIR} > ${CMAKE_BINARY_DIR}/include/nuttx/config.h
-  COMMAND
-    ${CMAKE_BINARY_DIR}/bin/mkversion ${CMAKE_BINARY_DIR} > ${CMAKE_BINARY_DIR}/include/nuttx/version.h
+    ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/config.h ${CMAKE_BINARY_DIR}/include/nuttx/config.h
   DEPENDS
-    nuttx_host_tools
-    ${CMAKE_BINARY_DIR}/.config
-    ${CMAKE_BINARY_DIR}/.version
+	${CMAKE_BINARY_DIR}/config.h
   WORKING_DIRECTORY ${NUTTX_DIR}
 )
 
@@ -57,10 +52,10 @@ add_custom_command(
   COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/include_nuttx
   COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/include_apps
 
-  COMMAND ${CMAKE_COMMAND} -E create_symlink ${NUTTX_DIR}/arch/${CONFIG_ARCH}/include ${CMAKE_BINARY_DIR}/include/arch # include/arch
-  COMMAND ${CMAKE_COMMAND} -E create_symlink ${NUTTX_BOARD_DIR}/include ${CMAKE_BINARY_DIR}/include_arch/arch/board # include/arch/board
-  COMMAND ${CMAKE_COMMAND} -E create_symlink ${NUTTX_DIR}/arch/${CONFIG_ARCH}/include/${CONFIG_ARCH_CHIP} ${CMAKE_BINARY_DIR}/include_arch/arch/chip  # include/arch/chip
-  COMMAND ${CMAKE_COMMAND} -E create_symlink ${NUTTX_DIR}/include/nuttx ${CMAKE_BINARY_DIR}/include_nuttx/nuttx # include/nuttx
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${NUTTX_DIR}/arch/${CONFIG_ARCH}/include ${CMAKE_BINARY_DIR}/include/arch # include/arch
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${NUTTX_BOARD_DIR}/include ${CMAKE_BINARY_DIR}/include_arch/arch/board	# include/arch/board
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${NUTTX_DIR}/arch/${CONFIG_ARCH}/include/${CONFIG_ARCH_CHIP} ${CMAKE_BINARY_DIR}/include_arch/arch/chip	# include/arch/chip
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${NUTTX_DIR}/include/nuttx ${CMAKE_BINARY_DIR}/include_nuttx/nuttx # include/nuttx
 
   COMMAND ${CMAKE_COMMAND} -E touch nuttx_symlinks.stamp
   DEPENDS
@@ -76,8 +71,8 @@ add_custom_command(
 
 if (CONFIG_ARCH_STDARG_H)
   add_custom_command(
-    OUTPUT include/stdarg.h
-    COMMAND ${CMAKE_COMMAND} -E create_symlink ${NUTTX_DIR}/include/nuttx/lib/stdarg.h ${CMAKE_BINARY_DIR}/include/stdarg.h
+    OUTPUT ${CMAKE_BINARY_DIR}/include/stdarg.h
+    COMMAND ${CMAKE_COMMAND} -E copy ${NUTTX_DIR}/include/nuttx/lib/stdarg.h ${CMAKE_BINARY_DIR}/include/stdarg.h
   )
 else()
   file(REMOVE ${CMAKE_BINARY_DIR}/include/stdarg.h)
@@ -109,7 +104,7 @@ endif()
 if (NEED_MATH_H)
   add_custom_command(
     OUTPUT include/math.h
-    COMMAND ${CMAKE_COMMAND} -E create_symlink ${NUTTX_DIR}/include/nuttx/lib/math.h ${CMAKE_BINARY_DIR}/include/math.h
+    COMMAND ${CMAKE_COMMAND} -E copy ${NUTTX_DIR}/include/nuttx/lib/math.h ${CMAKE_BINARY_DIR}/include/math.h
     DEPENDS nuttx_symlinks.stamp
   )
 else()
@@ -125,7 +120,7 @@ endif()
 if (CONFIG_ARCH_FLOAT_H)
   add_custom_command(
     OUTPUT include/float.h
-    COMMAND ${CMAKE_COMMAND} -E create_symlink ${NUTTX_DIR}/include/nuttx/lib/float.h ${CMAKE_BINARY_DIR}/include/float.h
+    COMMAND ${CMAKE_COMMAND} -E copy ${NUTTX_DIR}/include/nuttx/lib/float.h ${CMAKE_BINARY_DIR}/include/float.h
     DEPENDS nuttx_symlinks.stamp
   )
 else()
@@ -140,7 +135,7 @@ endif()
 if (CONFIG_ARCH_SETJMP_H)
   add_custom_command(
     OUTPUT include/setjmp.h
-    COMMAND ${CMAKE_COMMAND} -E create_symlink ${NUTTX_DIR}/include/nuttx/lib/setjmp.h ${CMAKE_BINARY_DIR}/include/setjmp.h
+    COMMAND ${CMAKE_COMMAND} -E copy ${NUTTX_DIR}/include/nuttx/lib/setjmp.h ${CMAKE_BINARY_DIR}/include/setjmp.h
     DEPENDS nuttx_symlinks.stamp
   )
 else()
@@ -155,10 +150,8 @@ endif()
 
 add_custom_target(nuttx_context
   DEPENDS
-    nuttx_host_tools
     nuttx_symlinks.stamp
     ${CMAKE_BINARY_DIR}/include/nuttx/config.h
-    ${CMAKE_BINARY_DIR}/include/nuttx/version.h
     $<$<BOOL:${CONFIG_ARCH_STDARG_H}>:${CMAKE_BINARY_DIR}/include/stdarg.h>
     $<$<BOOL:${NEED_MATH_H}>:${CMAKE_BINARY_DIR}/include/math.h>
     $<$<BOOL:${CONFIG_ARCH_FLOAT_H}>:${CMAKE_BINARY_DIR}/include/float.h>

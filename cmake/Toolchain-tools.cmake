@@ -24,16 +24,16 @@ set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 
 # REQUIRED OS tools
-foreach(tool grep genromfs make)
-  string(TOUPPER ${tool} TOOL)
-  find_program(${TOOL} ${tool} REQUIRED)
-endforeach()
+#foreach(tool grep genromfs make)
+#  string(TOUPPER ${tool} TOOL)
+#  find_program(${TOOL} ${tool} REQUIRED)
+#endforeach()
 
 # OPTIONAL tools
-foreach(tool srec_cat)
-  string(TOUPPER ${tool} TOOL)
-  find_program(${TOOL} ${tool})
-endforeach()
+#foreach(tool srec_cat)
+#  string(TOUPPER ${tool} TOOL)
+#  find_program(${TOOL} ${tool})
+#endforeach()
 
 ## optional compiler tools
 #foreach(tool gdb gdbtui)

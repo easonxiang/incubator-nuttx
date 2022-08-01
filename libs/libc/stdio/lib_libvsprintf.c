@@ -52,7 +52,6 @@
 #include <nuttx/streams.h>
 #include <nuttx/allsyms.h>
 
-#include "lib_dtoa_engine.h"
 #include "lib_ultoa_invert.h"
 
 /****************************************************************************

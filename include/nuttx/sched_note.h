@@ -678,8 +678,8 @@ void sched_note_filter_irq(struct note_filter_irq_s *oldf,
 #  define SCHED_NOTE_DUMP(event, buf, len)
 #  define SCHED_NOTE_VPRINTF(fmt, va)
 #  define SCHED_NOTE_VBPRINTF(event, fmt, va)
-#  define SCHED_NOTE_PRINTF(fmt, args...)
-#  define SCHED_NOTE_BPRINTF(event, fmt, args...)
+//#  define SCHED_NOTE_PRINTF(fmt, args...)
+//#  define SCHED_NOTE_BPRINTF(event, fmt, args...)
 #  define SCHED_NOTE_BEGIN()
 #  define SCHED_NOTE_END()
 
@@ -699,17 +699,17 @@ void sched_note_filter_irq(struct note_filter_irq_s *oldf,
 #  define sched_note_spinlocked(t,s)
 #  define sched_note_spinunlock(t,s)
 #  define sched_note_spinabort(t,s)
-#  define sched_note_syscall_enter(n,a...)
+//#  define sched_note_syscall_enter(n,a...)
 #  define sched_note_syscall_leave(n,r)
 #  define sched_note_irqhandler(i,h,e)
 #  define sched_note_string(ip,b)
 #  define sched_note_dump(ip,e,b,l)
 #  define sched_note_vprintf(ip,f,v)
 #  define sched_note_vbprintf(ip,e,f,v)
-#  define sched_note_printf(ip,f...)
-#  define sched_note_bprintf(ip,e,f...)
-#  define sched_note_begin(ip,f...)
-#  define sched_note_end(ip,f...)
+//#  define sched_note_printf(ip,f...)
+//#  define sched_note_bprintf(ip,e,f...)
+//#  define sched_note_begin(ip,f...)
+//#  define sched_note_end(ip,f...)
 
 #endif /* CONFIG_SCHED_INSTRUMENTATION */
 #endif /* __INCLUDE_NUTTX_SCHED_NOTE_H */

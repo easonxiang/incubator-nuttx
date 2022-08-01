@@ -191,8 +191,8 @@ struct mm_freenode_s
   FAR struct mm_freenode_s *blink;
 };
 
-static_assert(SIZEOF_MM_FREENODE <= MM_MIN_CHUNK,
-              "Error size for struct mm_freenode_s\n");
+//static_assert(SIZEOF_MM_FREENODE <= MM_MIN_CHUNK,
+//              "Error size for struct mm_freenode_s\n");
 
 struct mm_delaynode_s
 {

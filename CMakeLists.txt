@@ -199,7 +199,8 @@ set(CMAKE_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/arch/${CONFIG_ARCH}/cmake/Toolchai
 # Define project #############################################################
 # This triggers configuration
 
-project(NuttX LANGUAGES ASM C CXX)
+#project(NuttX LANGUAGES ASM C CXX)
+project(NuttX LANGUAGES C CXX)
 
 # Setup platform options (this needs to happen after project(),
 # once the toolchain file has been processed)
@@ -251,9 +252,9 @@ endif()
 add_compile_options(
   # system wide warnings
   -Wall
-  $<$<COMPILE_LANGUAGE:C>:-Wstrict-prototypes>
-  -Wshadow
-  -Wundef
+#  $<$<COMPILE_LANGUAGE:C>:-Wstrict-prototypes>
+#  -Wshadow
+#  -Wundef
   # system wide options
   -fno-builtin
   $<$<COMPILE_LANGUAGE:CXX>:-nostdinc++>
@@ -280,14 +281,14 @@ set_property(TARGET nuttx APPEND PROPERTY NUTTX_KERNEL_DEFINITIONS __KERNEL__)
 
 # Add tools
 
-ExternalProject_Add(nuttx_host_tools
-  SOURCE_DIR ${CMAKE_SOURCE_DIR}/tools
-  INSTALL_DIR ${CMAKE_BINARY_DIR}
-  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}
-  USES_TERMINAL_CONFIGURE true
-  USES_TERMINAL_BUILD true
-  USES_TERMINAL_INSTALL true
-)
+#ExternalProject_Add(nuttx_host_tools
+#  SOURCE_DIR ${CMAKE_SOURCE_DIR}/tools
+#  INSTALL_DIR ${CMAKE_BINARY_DIR}
+#  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}
+#  USES_TERMINAL_CONFIGURE true
+#  USES_TERMINAL_BUILD true
+#  USES_TERMINAL_INSTALL true
+#)
 
 # Each subdirectory will generate a static library
 
@@ -317,8 +318,6 @@ add_subdirectory(boards)
 
 if (EXISTS ${NUTTX_DIR}/${NUTTX_APPS_DIR}/CMakeLists.txt)
   add_subdirectory(${NUTTX_APPS_DIR} apps)
-  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink dummy ${NUTTX_APPS_DIR}/platform/board
-                  WORKING_DIRECTORY ${NUTTX_APPS_DIR})
 else()
   message(STATUS "Application directory not found at ${NUTTX_APPS_DIR}, skipping")
 endif()

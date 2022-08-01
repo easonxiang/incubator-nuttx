@@ -19,12 +19,16 @@
 ############################################################################
 
 set (SRCS
-  lib_abs.c lib_abort.c lib_atof.c lib_atoi.c lib_atexit.c
+  lib_abs.c lib_abort.c lib_atoi.c lib_atexit.c
   lib_atol.c lib_atoll.c lib_div.c lib_ldiv.c lib_lldiv.c
   lib_itoa.c lib_labs.c lib_llabs.c lib_realpath.c lib_bsearch.c
   lib_rand.c lib_qsort.c lib_srand.c lib_strtol.c lib_exit.c
-  lib_strtoll.c lib_strtoul.c lib_strtoull.c lib_strtod.c lib_strtof.c
+  lib_strtoll.c lib_strtoul.c lib_strtoull.c lib_strtod.c
   lib_strtold.c lib_checkbase.c lib_mktemp.c lib_mkstemp.c lib_mkdtemp.c)
+
+if (CONFIG_LIBC_FLOATINGPOINT)
+  list(APPEND SRCS lib_strtof.c lib_atof.c)
+endif()
 
 if (CONFIG_LIBC_WCHAR)
   list(APPEND SRCS

@@ -69,5 +69,6 @@ if (CONFIG_NSH_ROMFSETC AND CONFIG_NSH_ARCHROMFS)
     PATH ${CMAKE_CURRENT_BINARY_DIR}/etc
   )
 
-  target_link_libraries(board PRIVATE romfs_etc)
+#  target_link_libraries(board PRIVATE romfs_etc)
+  target_link_libraries(board)
 endif()

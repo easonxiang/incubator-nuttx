@@ -20,8 +20,11 @@
 
 set(SRCS sched_getprioritymax.c sched_getprioritymin.c
     clock_timespec_subtract.c clock_time2ticks.c
-    clock_timespec_add.c clock_ticks2time.c sched_dumpstack.c
-    sched_backtrace.c)
+    clock_timespec_add.c clock_ticks2time.c sched_dumpstack.c)
+
+if (CONFIG_ARCH_HAVE_BACKTRACE)
+  list(APPEND SRCS sched_backtrace.c)
+endif()
 
 if (NOT CONFIG_CANCELLATION_POINTS)
   list(APPEND SRCS task_setcanceltype.c task_testcancel.c)

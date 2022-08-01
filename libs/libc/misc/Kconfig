@@ -64,6 +64,6 @@ config LIBC_ENVPATH
 
 config LIBC_ERR
 	bool "Support err() verr() verrx() warn() vwarn() vwarnx()"
-	default y
+	default n
 	---help---
 		Support err() verr() verrx() warn() vwarn() vwarnx().  Default: y
