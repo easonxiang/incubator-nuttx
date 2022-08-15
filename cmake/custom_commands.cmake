@@ -34,6 +34,8 @@ execute_process(
     ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/include/nuttx
   COMMAND
     ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/config.h ${CMAKE_BINARY_DIR}/include/nuttx/config.h
+  COMMAND
+    ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/version.h ${CMAKE_BINARY_DIR}/include/nuttx/version.h
   WORKING_DIRECTORY ${NUTTX_DIR}
 )
 

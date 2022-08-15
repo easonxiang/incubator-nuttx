@@ -175,7 +175,7 @@ endif()
 
 include(python)
 include(kconfig_lib)
-#include(version)
+include(version)
 
 include(custom_commands)
 include(nuttx_add_library)
