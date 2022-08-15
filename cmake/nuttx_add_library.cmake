@@ -23,9 +23,6 @@
 # Used by functions below, not to be used directly
 
 function(nuttx_add_library_internal target)
-  # ensure nuttx_context is created before this
-  add_dependencies(${target} nuttx_context)
-
   # add main include directories
   target_include_directories(${target} SYSTEM PUBLIC
     $<$<BOOL:${CONFIG_HAVE_CXX}>:${CMAKE_BINARY_DIR}/include_cxx>

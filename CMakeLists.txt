@@ -175,6 +175,7 @@ endif()
 
 include(python)
 include(kconfig_lib)
+#include(version)
 
 include(custom_commands)
 include(nuttx_add_library)
@@ -213,7 +214,6 @@ include(detect_platform)
 # Setup main nuttx target ####################################################
 
 add_executable(nuttx)
-add_dependencies(nuttx nuttx_context)
 
 if (CONFIG_ARCH_SIM)
   # Create separate up_head OBJECT library built as part of NuttX kernel
@@ -231,7 +231,7 @@ if (CONFIG_ARCH_SIM)
   # We need the relocatable object to be first in the list of libraries
   # to be linked against final nuttx binary
 
-  target_link_libraries(nuttx PRIVATE ${CMAKE_BINARY_DIR}/nuttx.rel)
+#  target_link_libraries(nuttx PRIVATE ${CMAKE_BINARY_DIR}/nuttx.rel)
 else()
   # These flags apply to source files not part of the library. In sim build this corresponds
   # to "host" files, so we only do this on non-sim build
@@ -479,11 +479,13 @@ else()
     COMMAND ${CMAKE_OBJCOPY} --redefine-syms=nuttx-names.dat nuttx.rel
     DEPENDS ${nuttx_libs} up_head
   )
-  add_custom_target(nuttx-rel DEPENDS nuttx.rel $<$<NOT:$<BOOL:${APPLE}>>:nuttx.ld>)
+#  add_custom_target(nuttx-rel DEPENDS nuttx.rel $<$<NOT:$<BOOL:${APPLE}>>:nuttx.ld>)
 
   # link the final nuttx binary
-  add_dependencies(nuttx nuttx-rel)
-  target_link_options(nuttx PUBLIC $<$<NOT:$<BOOL:${APPLE}>>:-T nuttx.ld> $<$<BOOL:${CONFIG_SIM_M32}>:-m32>)
+#  add_dependencies(nuttx nuttx-rel)
+#  target_link_options(nuttx PUBLIC $<$<NOT:$<BOOL:${APPLE}>>:-T nuttx.ld> $<$<BOOL:${CONFIG_SIM_M32}>:-m32>)
+  target_link_options(nuttx PUBLIC $<$<BOOL:${CONFIG_SIM_M32}>:-m32>)
+  target_link_libraries(nuttx PRIVATE ${nuttx_libs_paths})
 endif()
 
 # TODO: if we use an install target a manifest may not be needed

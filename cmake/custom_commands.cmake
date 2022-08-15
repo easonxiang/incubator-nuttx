@@ -29,24 +29,17 @@ add_custom_command(
 
 # setup target to generate config.h and version.h from mkconfig and mkversion
 
-add_custom_command(
-  OUTPUT
-    ${CMAKE_BINARY_DIR}/include/nuttx/config.h
+execute_process(
   COMMAND
     ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/include/nuttx
   COMMAND
     ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/config.h ${CMAKE_BINARY_DIR}/include/nuttx/config.h
-  DEPENDS
-	${CMAKE_BINARY_DIR}/config.h
   WORKING_DIRECTORY ${NUTTX_DIR}
 )
 
 # Setup symbolic link generation
 
-add_custom_command(
-  COMMENT "Generate symbolic links"
-  OUTPUT nuttx_symlinks.stamp
-
+execute_process(
   COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/include
   COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/include_arch/arch
   COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/include_nuttx
@@ -56,10 +49,6 @@ add_custom_command(
   COMMAND ${CMAKE_COMMAND} -E copy_directory ${NUTTX_BOARD_DIR}/include ${CMAKE_BINARY_DIR}/include_arch/arch/board	# include/arch/board
   COMMAND ${CMAKE_COMMAND} -E copy_directory ${NUTTX_DIR}/arch/${CONFIG_ARCH}/include/${CONFIG_ARCH_CHIP} ${CMAKE_BINARY_DIR}/include_arch/arch/chip	# include/arch/chip
   COMMAND ${CMAKE_COMMAND} -E copy_directory ${NUTTX_DIR}/include/nuttx ${CMAKE_BINARY_DIR}/include_nuttx/nuttx # include/nuttx
-
-  COMMAND ${CMAKE_COMMAND} -E touch nuttx_symlinks.stamp
-  DEPENDS
-    ${CMAKE_BINARY_DIR}/.config
 )
 
 # Optional symbolic links
@@ -70,8 +59,7 @@ add_custom_command(
 # have to copy stdarg.h from include/nuttx/. to include/.
 
 if (CONFIG_ARCH_STDARG_H)
-  add_custom_command(
-    OUTPUT ${CMAKE_BINARY_DIR}/include/stdarg.h
+  execute_process(
     COMMAND ${CMAKE_COMMAND} -E copy ${NUTTX_DIR}/include/nuttx/lib/stdarg.h ${CMAKE_BINARY_DIR}/include/stdarg.h
   )
 else()
@@ -102,10 +90,8 @@ else()
 endif()
 
 if (NEED_MATH_H)
-  add_custom_command(
-    OUTPUT include/math.h
+  execute_process(
     COMMAND ${CMAKE_COMMAND} -E copy ${NUTTX_DIR}/include/nuttx/lib/math.h ${CMAKE_BINARY_DIR}/include/math.h
-    DEPENDS nuttx_symlinks.stamp
   )
 else()
   file(REMOVE ${CMAKE_BINARY_DIR}/include/math.h)
@@ -118,10 +104,8 @@ endif()
 # the settings in this float.h are actually correct for your platform!
 
 if (CONFIG_ARCH_FLOAT_H)
-  add_custom_command(
-    OUTPUT include/float.h
+  execute_process(
     COMMAND ${CMAKE_COMMAND} -E copy ${NUTTX_DIR}/include/nuttx/lib/float.h ${CMAKE_BINARY_DIR}/include/float.h
-    DEPENDS nuttx_symlinks.stamp
   )
 else()
   file(REMOVE ${CMAKE_BINARY_DIR}/include/float.h)
@@ -133,27 +117,9 @@ endif()
 # have to copy setjmp.h from include/nuttx/. to include/.
 
 if (CONFIG_ARCH_SETJMP_H)
-  add_custom_command(
-    OUTPUT include/setjmp.h
+  execute_process(
     COMMAND ${CMAKE_COMMAND} -E copy ${NUTTX_DIR}/include/nuttx/lib/setjmp.h ${CMAKE_BINARY_DIR}/include/setjmp.h
-    DEPENDS nuttx_symlinks.stamp
   )
 else()
   file(REMOVE ${CMAKE_BINARY_DIR}/include/setjmp.h)
 endif()
-
-# Add final context target that ties together all of the above
-# The context target is invoked on each target build to assure that NuttX is
-# properly configured.  The basic configuration steps include creation of the
-# the config.h and version.h header files in the include/nuttx directory and
-# the establishment of symbolic links to configured directories.
-
-add_custom_target(nuttx_context
-  DEPENDS
-    nuttx_symlinks.stamp
-    ${CMAKE_BINARY_DIR}/include/nuttx/config.h
-    $<$<BOOL:${CONFIG_ARCH_STDARG_H}>:${CMAKE_BINARY_DIR}/include/stdarg.h>
-    $<$<BOOL:${NEED_MATH_H}>:${CMAKE_BINARY_DIR}/include/math.h>
-    $<$<BOOL:${CONFIG_ARCH_FLOAT_H}>:${CMAKE_BINARY_DIR}/include/float.h>
-    $<$<BOOL:${CONFIG_ARCH_SETJMP_H}>:${CMAKE_BINARY_DIR}/include/setjmp.h>
-)
